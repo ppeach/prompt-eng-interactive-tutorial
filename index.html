@@ -8,6 +8,9 @@
             margin: 0;
             padding: 15px;
             font-family: -apple-system, system-ui, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
         }
         .chapter {
             display: none;
@@ -17,7 +20,11 @@
             display: block;
         }
         nav {
-            margin: 20px 0;
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
         }
         select {
             width: 100%;
@@ -27,14 +34,59 @@
         }
         .exercise {
             background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .playground {
+            background: #e6f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .tip {
+            background: #fff3cd;
             padding: 15px;
             border-radius: 8px;
             margin: 10px 0;
         }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        button {
+            background: #0366d6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0255b3;
+        }
+        .feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
-    <h1>Prompt Engineering Tutorial</h1>
+    <h1>Anthropic's Prompt Engineering Tutorial</h1>
     
     <nav>
         <select id="chapterSelect" onchange="showChapter(this.value)">
@@ -42,27 +94,64 @@
             <option value="1">Chapter 1: Basic Prompt Structure</option>
             <option value="2">Chapter 2: Being Clear and Direct</option>
             <option value="3">Chapter 3: Assigning Roles</option>
+            <option value="4">Chapter 4: Separating Data from Instructions</option>
+            <option value="5">Chapter 5: Formatting Output</option>
+            <option value="6">Chapter 6: Thinking Step by Step</option>
+            <option value="7">Chapter 7: Using Examples</option>
+            <option value="8">Chapter 8: Avoiding Hallucinations</option>
+            <option value="9">Chapter 9: Complex Prompts</option>
         </select>
     </nav>
 
     <div id="content">
         <div id="chapter1" class="chapter">
             <h2>Basic Prompt Structure</h2>
-            <p>Learn the fundamentals of creating effective prompts.</p>
+            <p>A good prompt typically contains these key elements:</p>
+            <ul>
+                <li><strong>Clear instruction</strong>: What you want Claude to do</li>
+                <li><strong>Relevant context</strong>: Information needed to complete the task</li>
+                <li><strong>Expected format</strong>: How you want the response structured</li>
+            </ul>
+            
+            <div class="tip">
+                <h4>💡 Key Tip</h4>
+                <p>Be specific about what you want. Vague prompts lead to vague responses.</p>
+            </div>
+
             <div class="exercise">
-                <h3>Exercise 1</h3>
-                <textarea placeholder="Try your prompt here" rows="4" style="width: 100%"></textarea>
-                <button onclick="checkPrompt(1)">Check</button>
+                <h3>Exercise 1: Basic Prompting</h3>
+                <p>Try writing a prompt that asks Claude to explain quantum computing to a 10-year-old.</p>
+                <textarea placeholder="Write your prompt here..." rows="4"></textarea>
+                <button onclick="checkExercise(1)">Check Exercise</button>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div class="playground">
+                <h3>Practice Playground</h3>
+                <p>Experiment with different prompts and see how changing elements affects the response.</p>
+                <textarea placeholder="Try different prompts here..." rows="6"></textarea>
+                <button onclick="testPrompt()">Test Prompt</button>
             </div>
         </div>
 
         <div id="chapter2" class="chapter">
             <h2>Being Clear and Direct</h2>
-            <p>Techniques for writing unambiguous prompts.</p>
+            <p>Learn to write unambiguous prompts that generate precise responses.</p>
+            
+            <h3>Key Principles:</h3>
+            <ul>
+                <li>Use specific verbs instead of vague instructions</li>
+                <li>Break complex tasks into smaller steps</li>
+                <li>Specify any constraints or requirements</li>
+            </ul>
+
             <div class="exercise">
-                <h3>Exercise 2</h3>
-                <textarea placeholder="Try your prompt here" rows="4" style="width: 100%"></textarea>
-                <button onclick="checkPrompt(2)">Check</button>
+                <h3>Exercise 2: Clarity Practice</h3>
+                <p>Rewrite this vague prompt to be more specific:</p>
+                <p><em>"Make this better: The cat went to the store."</em></p>
+                <textarea placeholder="Write your improved prompt here..." rows="4"></textarea>
+                <button onclick="checkExercise(2)">Check Exercise</button>
+                <div id="feedback2" class="feedback"></div>
             </div>
         </div>
     </div>
@@ -75,9 +164,24 @@
             }
         }
 
-        function checkPrompt(exerciseNum) {
-            // Add exercise validation logic here
-            alert('Exercise ' + exerciseNum + ' submitted!');
+        function checkExercise(num) {
+            const feedback = document.getElementById('feedback' + num);
+            feedback.style.display = 'block';
+            
+            switch(num) {
+                case 1:
+                    feedback.className = 'feedback success';
+                    feedback.innerHTML = 'Good attempt! A strong prompt should include: <br>1. Clear instruction to explain quantum computing<br>2. Specification of the audience (10-year-old)<br>3. Guidelines for using age-appropriate language';
+                    break;
+                case 2:
+                    feedback.className = 'feedback success';
+                    feedback.innerHTML = 'Great work! A clear prompt should specify:<br>1. What aspects to improve (grammar, description, creativity)<br>2. How to improve it (add details, use stronger verbs)<br>3. The desired outcome';
+                    break;
+            }
+        }
+
+        function testPrompt() {
+            alert('In a full implementation, this would connect to Claude API to test your prompt.');
         }
     </script>
 </body>
