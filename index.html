@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prompt Engineering Tutorial</title>
+    <style>
+        body { 
+            margin: 0;
+            padding: 15px;
+            font-family: -apple-system, system-ui, sans-serif;
+        }
+        .chapter {
+            display: none;
+            padding: 10px;
+        }
+        .chapter.active {
+            display: block;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .exercise {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prompt Engineering Tutorial</h1>
+    
+    <nav>
+        <select id="chapterSelect" onchange="showChapter(this.value)">
+            <option value="">Select Chapter</option>
+            <option value="1">Chapter 1: Basic Prompt Structure</option>
+            <option value="2">Chapter 2: Being Clear and Direct</option>
+            <option value="3">Chapter 3: Assigning Roles</option>
+        </select>
+    </nav>
+
+    <div id="content">
+        <div id="chapter1" class="chapter">
+            <h2>Basic Prompt Structure</h2>
+            <p>Learn the fundamentals of creating effective prompts.</p>
+            <div class="exercise">
+                <h3>Exercise 1</h3>
+                <textarea placeholder="Try your prompt here" rows="4" style="width: 100%"></textarea>
+                <button onclick="checkPrompt(1)">Check</button>
+            </div>
+        </div>
+
+        <div id="chapter2" class="chapter">
+            <h2>Being Clear and Direct</h2>
+            <p>Techniques for writing unambiguous prompts.</p>
+            <div class="exercise">
+                <h3>Exercise 2</h3>
+                <textarea placeholder="Try your prompt here" rows="4" style="width: 100%"></textarea>
+                <button onclick="checkPrompt(2)">Check</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showChapter(num) {
+            document.querySelectorAll('.chapter').forEach(ch => ch.classList.remove('active'));
+            if (num) {
+                document.getElementById('chapter' + num).classList.add('active');
+            }
+        }
+
+        function checkPrompt(exerciseNum) {
+            // Add exercise validation logic here
+            alert('Exercise ' + exerciseNum + ' submitted!');
+        }
+    </script>
+</body>
+</html>
